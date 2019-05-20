@@ -50,10 +50,25 @@ Entity.prototype.update = function() {
 	this.applyDrag();
 
 };
-
+let yoffset = 0;
 Entity.prototype.render = function() {
-  stroke(0);
-  strokeWeight(2);
-  fill(255,127);
-  ellipse(this.position.x, this.position.y, this.mass * 2, this.mass * 2);
+  // stroke(0);
+  // strokeWeight(2);
+  // fill(255,127);
+	// ellipse(this.position.x, this.position.y, this.mass * 2, this.mass * 2);
+	push();
+  translate(this.position.x,this.position.y);
+  beginShape();
+  var xoffset = 0;
+  for (var i = 0; i < TWO_PI; i+= 0.1) {
+    var radius = this.mass*2 + map(noise(xoffset, yoffset), 0, 1, -25, 25);
+    var x = radius * cos(i);
+    var y = radius * sin(i);
+    vertex(x, y);
+    xoffset += 0.1;
+  }
+  endShape();
+  pop();
+
+  yoffset += 0.1;
 };

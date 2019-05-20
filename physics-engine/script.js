@@ -7,12 +7,17 @@ function setup() {
 	collection = new EntityCollection();
 	collection.setG(50);
 
-	let bigEntity = new Entity(50, 700, 400);
-	let smallEntity = new Entity(5, 1000, 400);
+	// let biggerEntity = new Entity(50, 100, 400);
+	let bigEntity = new Entity(500, 100, 400);
+	let smallEntity = new Entity(50, 700, 400);
+	let smallerEntity = new Entity(10, 1000, 400);
 	// bigEntity.setDragCoefficient(0.1);
 	// smallEntity.setDragCoefficient(0.1);
-	smallEntity.applyImpulse(createVector(0, 10));
-	collection.addEntities([bigEntity, smallEntity]);
+	// biggerEntity.applyImpulse(createVector(0, -100));
+	bigEntity.applyImpulse(createVector(0, 50));
+	smallEntity.applyImpulse(createVector(0, -100));
+	smallerEntity.applyImpulse(createVector(0, 50));
+	collection.addEntities([bigEntity, smallEntity, smallerEntity]);
 
 	// for(let i = 0; i < 10; i++) {
 	// 	let testEntity = new Entity(5, 0, 0);
