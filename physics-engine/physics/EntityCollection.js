@@ -22,6 +22,7 @@ EntityCollection.prototype.update = function() {
 	// Update all children
 	this.applyGravitationalForces();
 	this.checkCollisions();
+	this.camera();
 	this.entities.forEach(e => { e.update() });
 };
 
@@ -89,4 +90,26 @@ EntityCollection.prototype.collision = function(e1, e2, d) {
 
 	e1.applyImpulse(j1);
 	e2.applyImpulse(j2);
+}
+
+EntityCollection.prototype.camera = function() {
+	let v = -10;
+	
+	let ds = createVector(0, 0);
+	if(keyIsDown(LEFT_ARROW)) {
+		ds.add(createVector(-v,0));
+	}
+	if(keyIsDown(RIGHT_ARROW)) {
+		ds.add(createVector(v,0));
+	}
+	if(keyIsDown(UP_ARROW)) {
+		ds.add(createVector(0,-v));
+	}
+	if(keyIsDown(DOWN_ARROW)) {
+		ds.add(createVector(0,v));
+	}
+
+	this.entities.forEach(e => {
+		e.position.add(ds);
+	})
 }
