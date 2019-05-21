@@ -5,6 +5,7 @@ let Entity = function(m, x, y) {
 	this.velocity = createVector(0, 0);
 	this.acceleration = createVector(0, 0);
 	this.dragCoefficient = 0;
+	this.restitution = 1;
 	this.renderer = null;
 	this.rendererUpdate = function(e) {};
 };
@@ -15,6 +16,7 @@ Entity.prototype.setPosition = function(x, y) { this.position = createVector(x,y
 Entity.prototype.setVelocity = function(x, y) { this.velocity = createVector(x,y); };
 Entity.prototype.setAcceleration = function(x, y) { this.acceleration = createVector(x,y); };
 Entity.prototype.setDragCoefficient = function(c) { this.dragCoefficient = c; };
+Entity.prototype.setRestitution = function(e) { this.restitution = e; };
 Entity.prototype.setRenderer = function(r, update) { 
 	this.renderer = r; 
 	this.rendererUpdate = update;
