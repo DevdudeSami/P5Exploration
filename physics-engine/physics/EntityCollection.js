@@ -20,8 +20,8 @@ EntityCollection.prototype.count = function() { return this.entities.length; };
 
 EntityCollection.prototype.update = function() {
 	// Update all children
+	this.applyGravitationalForces();
 	this.entities.forEach(e => { e.update() });
-	this.computeGravitationalForces();
 };
 
 EntityCollection.prototype.render = function() {
@@ -29,7 +29,7 @@ EntityCollection.prototype.render = function() {
 	this.entities.forEach(e => { e.render() });
 };
 
-EntityCollection.prototype.computeGravitationalForces = function() {
+EntityCollection.prototype.applyGravitationalForces = function() {
 	for(let i = 0; i < this.count()-1; i++) {
 		for(let j = i+1; j < this.count(); j++) {
 			// f = G*m1*m2/r^2

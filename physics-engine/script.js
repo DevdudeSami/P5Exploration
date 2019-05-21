@@ -8,13 +8,20 @@ function setup() {
 	collection.setG(50);
 
 	// let biggerEntity = new Entity(50, 100, 400);
-	let bigEntity = new Entity(500, 100, 400);
+	let bigEntity = new Entity(300, 100, 400);
 	let smallEntity = new Entity(50, 700, 400);
-	let smallerEntity = new Entity(10, 1000, 400);
-	// bigEntity.setDragCoefficient(0.1);
-	// smallEntity.setDragCoefficient(0.1);
+	let smallerEntity = new Entity(15, 1000, 400);
+
+	let rendererUpdate = function(e) {
+		e.renderer.update(e.position, e.mass);
+	}
+
+	bigEntity.setRenderer(new BlobRenderer(0.001), rendererUpdate);
+	smallEntity.setRenderer(new CircleRenderer(), rendererUpdate);
+	smallerEntity.setRenderer(new CircleRenderer(), rendererUpdate);
+
 	// biggerEntity.applyImpulse(createVector(0, -100));
-	bigEntity.applyImpulse(createVector(0, 50));
+	bigEntity.applyImpulse(createVector(0, 100));
 	smallEntity.applyImpulse(createVector(0, -100));
 	smallerEntity.applyImpulse(createVector(0, 50));
 	collection.addEntities([bigEntity, smallEntity, smallerEntity]);

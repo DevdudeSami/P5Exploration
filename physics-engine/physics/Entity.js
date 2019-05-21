@@ -5,6 +5,8 @@ let Entity = function(m, x, y) {
 	this.velocity = createVector(0, 0);
 	this.acceleration = createVector(0, 0);
 	this.dragCoefficient = 0;
+	this.renderer = null;
+	this.rendererUpdate = function(e) {};
 };
 
 /** Setters */
@@ -13,6 +15,10 @@ Entity.prototype.setPosition = function(x, y) { this.position = createVector(x,y
 Entity.prototype.setVelocity = function(x, y) { this.velocity = createVector(x,y); };
 Entity.prototype.setAcceleration = function(x, y) { this.acceleration = createVector(x,y); };
 Entity.prototype.setDragCoefficient = function(c) { this.dragCoefficient = c; };
+Entity.prototype.setRenderer = function(r, update) { 
+	this.renderer = r; 
+	this.rendererUpdate = update;
+};
 
 Entity.prototype.direction = function() {
 	let direction = this.velocity.copy();
@@ -46,29 +52,12 @@ Entity.prototype.update = function() {
 	// Clear acceleration
 	this.acceleration.mult(0);
 
-	// Apply friction force
+	// Apply drag force
 	this.applyDrag();
 
+	this.rendererUpdate(this);
 };
-let yoffset = 0;
-Entity.prototype.render = function() {
-  // stroke(0);
-  // strokeWeight(2);
-  // fill(255,127);
-	// ellipse(this.position.x, this.position.y, this.mass * 2, this.mass * 2);
-	push();
-  translate(this.position.x,this.position.y);
-  beginShape();
-  var xoffset = 0;
-  for (var i = 0; i < TWO_PI; i+= 0.1) {
-    var radius = this.mass*2 + map(noise(xoffset, yoffset), 0, 1, -25, 25);
-    var x = radius * cos(i);
-    var y = radius * sin(i);
-    vertex(x, y);
-    xoffset += 0.1;
-  }
-  endShape();
-  pop();
 
-  yoffset += 0.1;
+Entity.prototype.render = function() {
+	if(this.renderer != null) this.renderer.render();
 };
