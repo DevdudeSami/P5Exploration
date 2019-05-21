@@ -45,6 +45,11 @@ function draw() {
 
 	collection.update();
 	collection.render();
+
+	let fps = frameRate();
+	fill(255);
+	stroke(0);
+	text("FPS: " + fps.toFixed(2), 10, height - 10);
 }
 
 // function windowResized() {
