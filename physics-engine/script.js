@@ -13,9 +13,10 @@ function setup() {
 	let smallerEntity = new Entity(15, 1000, 400);
 
 	let rendererUpdate = function(e) {
-		e.renderer.update(e.position, e.mass*2);
+		e.renderer.update(e.position, e.radius(), 15+255*(e.density/0.1));
 	}
 
+	biggerEntity.setRestitution(0.01);
 	bigEntity.setRestitution(0.01);
 	smallEntity.setRestitution(0.01);
 

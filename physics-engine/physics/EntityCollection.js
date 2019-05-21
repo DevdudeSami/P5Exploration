@@ -56,7 +56,7 @@ EntityCollection.prototype.checkCollisions = function() {
 			let e2 = this.entities[j];
 
 			let dr = e1.position.dist(e2.position); // Distance between
-			let Dr = e1.mass + e2.mass // Sum of radii
+			let Dr = e1.radius() + e2.radius(); // Sum of radii
 			
 			if(dr <= Dr) {
 				this.collision(e1,e2,Dr-dr);

@@ -1,18 +1,24 @@
 let CircleRenderer = function() {
 	this.position = createVector(0,0);
 	this.radius = 0;
+	this.opacity = 0;
 };
 
-CircleRenderer.prototype.update = function(position, radius) {
+CircleRenderer.prototype.update = function(position, radius, opacity) {
 	this.position = position;
 	this.radius = radius;
+	this.opacity = opacity;
 }
 
 CircleRenderer.prototype.render = function() {
 	stroke(0);
 	strokeWeight(2);
-	fill(255,127);
-	ellipse(this.position.x, this.position.y, this.radius, this.radius);
+	fill(255,this.opacity);
+	ellipse(this.position.x, this.position.y, this.radius*2, this.radius*2);
+}
+
+CircleRenderer.radiusOf = function(e) {
+	return e.radius();
 }
 
 let BlobRenderer = function(detail) {
