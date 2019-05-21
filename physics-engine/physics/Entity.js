@@ -32,7 +32,7 @@ Entity.prototype.direction = function() {
 
 Entity.prototype.radius = function() {
 	let area = this.mass/this.density;
-	return Math.sqrt(area/PI);
+	return Math.sqrt(area/0.5);
 }
 
 /** Force: F = ma */
