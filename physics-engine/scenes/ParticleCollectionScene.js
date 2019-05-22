@@ -22,7 +22,7 @@ ParticleCollectionScene.prototype.setup = function() {
 	for(let i = 0; i < this.nX; i++) {
 		for(let j = 0; j < this.nY; j++) {
 			let e = new Entity(5, xOffset+padding*i, yOffset+padding*j);
-			e.setDensity(0.01);
+			e.setDensity(0.005);
 			e.setRestitution(0);
 			e.setRenderer(new CircleRenderer(), rendererUpdate);
 			this.collection.addEntity(e);

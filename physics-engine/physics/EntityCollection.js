@@ -58,7 +58,7 @@ EntityCollection.prototype.checkCollisions = function() {
 			let dr = e1.position.dist(e2.position); // Distance between
 			let Dr = e1.radius() + e2.radius(); // Sum of radii
 			
-			if(dr <= Dr) {
+			if(Dr-dr >= 0) {
 				this.collision(e1,e2,Dr-dr);
 			}
 		}
@@ -81,15 +81,18 @@ EntityCollection.prototype.collision = function(e1, e2, d) {
 	e2.position.sub(ds2);
 
 	let du = p5.Vector.sub(e1.velocity, e2.velocity);
-	let dv = p5.Vector.mult(du,-restitution);
 
-	j1 = p5.Vector.sub(dv,du);
-	j1.mult(e1.mass);
-	j2 = p5.Vector.sub(dv,du);
-	j2.mult(-e2.mass);
+	let p1 = p5.Vector.mult(e1.velocity, e1.mass);
+	let p2 = p5.Vector.mult(e2.velocity, e2.mass);
+	let totalMomentum = p5.Vector.add(p1, p2);
 
-	e1.applyImpulse(j1);
-	e2.applyImpulse(j2);
+	let v1 = p5.Vector.add(totalMomentum, p5.Vector.mult(du, -e2.mass*restitution));
+	v1.div(totalMass);
+	let v2 = p5.Vector.add(totalMomentum, p5.Vector.mult(du, e1.mass*restitution));
+	v2.div(totalMass);
+
+	e1.setVelocity(v1.x, v1.y);
+	e2.setVelocity(v2.x, v2.y);
 }
 
 EntityCollection.prototype.camera = function() {

@@ -1,4 +1,4 @@
-let initialScene = new TestScene();
+let initialScene = new ParticleCollectionScene();
 
 function setup() {
 	initialScene.setup();
@@ -7,4 +7,4 @@ function setup() {
 function draw() {
 	initialScene.update();
 	initialScene.render();
-}
+} 
