@@ -1,6 +1,7 @@
-let initialScene = new TestScene();
+let initialScene: ParticleCollectionScene;
 
 function setup() {
+	initialScene = new ParticleCollectionScene();
 	initialScene.setup();
 }
 

@@ -1,0 +1,24 @@
+{
+  "name": "physics-engine",
+  "license": "MIT",
+  "author": {
+    "name": "Youssef Moawad",
+    "url": "https://devdude.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:DevdudeSami/P5Exploration.git"
+  },
+  "version": "0.0.1",
+  "dependencies": {
+    "p5": "^0.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^10.3.3",
+    "@types/p5": "^0.7.2",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "compile": "tsc"
+  }
+}
