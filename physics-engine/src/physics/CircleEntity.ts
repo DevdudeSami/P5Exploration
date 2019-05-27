@@ -1,6 +1,8 @@
 /// <reference path="./Entity.ts" />
 
 class CircleEntity extends Entity {
+	fill = [255,255,255];
+
 	constructor(mass: number, x: number, y: number, public radius: number) {
 		super(mass, x, y);
 		
@@ -25,7 +27,7 @@ class CircleEntity extends Entity {
 
 		stroke(0);
 		strokeWeight(2);
-		fill(255,opacity);
+		fill(this.fill[0], this.fill[1], this.fill[2], opacity);
 		ellipse(this.position.x, this.position.y, this.radius*2, this.radius*2);
 	}
 }
