@@ -3,13 +3,23 @@
 		<title>P5Exploration</title>
 		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
-		<script src="physics/Entity.js"></script>
-		<script src="physics/EntityCollection.js"></script>
-		<script src="physics/Renderer.js"></script>
-		<script src="scenes/TestScene.js"></script>
-		<script src="scenes/ParticleCollectionScene.js"></script>
-		<script src="ParticleCollection.js"></script>
+		<script src="src/build/target.js"></script>
 		
+		<script>
+			let scene;
+
+			function setup() {
+				scene = new ParticleCollectionScene();
+				scene.setup();
+			}
+
+			function draw() {
+				scene.update();
+				scene.render();
+			}
+		</script>
+
+
 		<style>
 			html, body {
 				height: 100%;

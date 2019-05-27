@@ -1,4 +1,4 @@
-class Entity {
+class Entity implements Renderable {
 	position: p5.Vector;
 	velocity: p5.Vector = createVector(0,0);
 	acceleration: p5.Vector = createVector(0,0);

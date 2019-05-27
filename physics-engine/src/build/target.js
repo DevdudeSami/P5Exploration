@@ -1,12 +1,3 @@
-var initialScene;
-function setup() {
-    initialScene = new TestScene();
-    initialScene.setup();
-}
-function draw() {
-    initialScene.update();
-    initialScene.render();
-}
 var Entity = (function () {
     function Entity(mass, x, y) {
         this.mass = mass;
@@ -242,15 +233,64 @@ var EntityCollection = (function () {
     };
     return EntityCollection;
 }());
-var ParticleCollectionScene = (function () {
+var Scene = (function () {
+    function Scene() {
+        this.children = [];
+        this.childrenIDs = {};
+        this.backgroundColor = [255, 255, 255];
+        this.showFPS = true;
+    }
+    Scene.prototype.addChild = function (e, id) {
+        this.children.push(e);
+        if (id !== undefined)
+            this.childrenIDs[id] = this.children.length - 1;
+    };
+    ;
+    Scene.prototype.addChildren = function (es) { this.children = this.children.concat(es); };
+    Scene.prototype.removeChild = function (index) { this.children.splice(index, 1); };
+    Scene.prototype.removeChildByID = function (id) {
+        if (id in this.childrenIDs)
+            this.removeChild(this.childrenIDs[id]);
+        else
+            console.error("Entity ID does not exist.");
+    };
+    ;
+    Object.defineProperty(Scene.prototype, "childCount", {
+        get: function () { return this.children.length; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Scene.prototype.setup = function () {
+        createCanvas(windowWidth, windowHeight);
+    };
+    Scene.prototype.update = function () {
+        background(this.backgroundColor[0], this.backgroundColor[1], this.backgroundColor[2]);
+        this.children.forEach(function (e) { e.update(); });
+    };
+    Scene.prototype.render = function () {
+        this.children.forEach(function (e) { e.render(); });
+        if (this.showFPS) {
+            var fps = frameRate();
+            fill(255);
+            stroke(0);
+            text("FPS: " + fps.toFixed(2), 10, height - 10);
+        }
+    };
+    return Scene;
+}());
+var ParticleCollectionScene = (function (_super) {
+    __extends(ParticleCollectionScene, _super);
     function ParticleCollectionScene() {
-        this.collection = new EntityCollection();
-        this.nX = 10;
-        this.nY = 10;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.collection = new EntityCollection();
+        _this.nX = 10;
+        _this.nY = 10;
+        return _this;
     }
     ParticleCollectionScene.prototype.setup = function () {
-        createCanvas(windowWidth, windowHeight);
-        background(127);
+        _super.prototype.setup.call(this);
+        this.backgroundColor = [120, 120, 120];
         this.collection = new EntityCollection();
         this.collection.G = 3;
         var xOffset = 100;
@@ -258,33 +298,25 @@ var ParticleCollectionScene = (function () {
         var padding = 150;
         for (var i = 0; i < this.nX; i++) {
             for (var j = 0; j < this.nY; j++) {
-                var e = new BlobEntity(10, xOffset + padding * i, yOffset + padding * j, 20);
-                e.detail = 0.05;
+                var e = new CircleEntity(10, xOffset + padding * i, yOffset + padding * j, 20);
                 e.restitution = 1;
                 this.collection.addEntity(e);
             }
         }
-    };
-    ParticleCollectionScene.prototype.update = function () {
-        this.collection.update();
-    };
-    ParticleCollectionScene.prototype.render = function () {
-        background(127);
-        this.collection.render();
-        var fps = frameRate();
-        fill(255);
-        stroke(0);
-        text("FPS: " + fps.toFixed(2), 10, height - 10);
+        this.addChild(this.collection);
     };
     return ParticleCollectionScene;
-}());
-var TestScene = (function () {
-    function TestScene() {
-        this.collection = new EntityCollection();
+}(Scene));
+var PlaneteryMotionScene = (function (_super) {
+    __extends(PlaneteryMotionScene, _super);
+    function PlaneteryMotionScene() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.collection = new EntityCollection();
+        return _this;
     }
-    TestScene.prototype.setup = function () {
-        createCanvas(windowWidth, windowHeight);
-        background(127);
+    PlaneteryMotionScene.prototype.setup = function () {
+        _super.prototype.setup.call(this);
+        this.backgroundColor = [0, 0, 0];
         this.collection = new EntityCollection();
         this.collection.G = 30;
         var entity1 = new CircleEntity(1100, 30, 400, 100);
@@ -306,18 +338,8 @@ var TestScene = (function () {
         entity4.applyImpulse(createVector(0, 1500));
         entity5.applyImpulse(createVector(0, 1300));
         this.collection.addEntities([entity1, entity2, entity3, entity4]);
+        this.addChild(this.collection);
     };
-    TestScene.prototype.update = function () {
-        this.collection.update();
-    };
-    TestScene.prototype.render = function () {
-        background(0);
-        this.collection.render();
-        var fps = frameRate();
-        fill(255);
-        stroke(0);
-        text("FPS: " + fps.toFixed(2), 10, height - 10);
-    };
-    return TestScene;
-}());
+    return PlaneteryMotionScene;
+}(Scene));
 //# sourceMappingURL=target.js.map

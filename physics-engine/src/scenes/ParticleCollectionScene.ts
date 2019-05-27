@@ -1,12 +1,15 @@
-class ParticleCollectionScene {
+/// <reference path="./Scene.ts" />
+
+class ParticleCollectionScene extends Scene {
 	collection = new EntityCollection();
 	nX = 10;
 	nY = 10;
 
 	setup() {
-		createCanvas(windowWidth, windowHeight);
-		background(127);
-			
+		super.setup();
+
+		this.backgroundColor = [120,120,120];
+		
 		this.collection = new EntityCollection();
 		this.collection.G = 3;
 	
@@ -16,28 +19,13 @@ class ParticleCollectionScene {
 	
 		for(let i = 0; i < this.nX; i++) {
 			for(let j = 0; j < this.nY; j++) {
-				let e = new BlobEntity(10, xOffset+padding*i, yOffset+padding*j, 20);
-				e.detail = 0.05;
+				let e = new CircleEntity(10, xOffset+padding*i, yOffset+padding*j, 20);
 				e.restitution = 1;
 				this.collection.addEntity(e);
 			}
 		}
-	}
-	
-	update() {
-		this.collection.update();
-	}
-	
-	render() {
-		background(127);
-	
-		this.collection.render();
-	
-		let fps = frameRate();
-		fill(255);
-		stroke(0);
-		text("FPS: " + fps.toFixed(2), 10, height - 10);
-	}
-	
+
+		this.addChild(this.collection);
+	}	
 }
 

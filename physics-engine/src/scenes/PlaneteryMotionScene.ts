@@ -1,11 +1,14 @@
-class TestScene {
+/// <reference path="./Scene.ts" />
+
+class PlaneteryMotionScene extends Scene {
 	collection: EntityCollection = new EntityCollection();
 
 
 	setup() {
-		createCanvas(windowWidth, windowHeight);
-		background(127);
-			
+		super.setup();
+
+		this.backgroundColor = [0,0,0];
+
 		this.collection = new EntityCollection();
 		this.collection.G = 30;
 		
@@ -31,21 +34,7 @@ class TestScene {
 		entity4.applyImpulse(createVector(0, 1500));
 		entity5.applyImpulse(createVector(0, 1300));
 		this.collection.addEntities([entity1, entity2, entity3, entity4]);
+
+		this.addChild(this.collection);
 	}
-
-	update() {
-		this.collection.update();
-	}
-
-	render() {
-		background(0);
-
-		this.collection.render();
-
-		let fps = frameRate();
-		fill(255);
-		stroke(0);
-		text("FPS: " + fps.toFixed(2), 10, height - 10);
-	}
-
 }

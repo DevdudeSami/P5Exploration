@@ -1,4 +1,4 @@
-class EntityCollection {
+class EntityCollection implements Renderable {
 	entities: Entity[] = [];
 	entityIDs: { [id: string]: number } = {};
 	G: number = 0.00001;
@@ -46,7 +46,6 @@ class EntityCollection {
 	};
 	
 	checkCollisions() {
-		// Assume simple spherical shape whose radius is the mass
 		for(let i = 0; i < this.count-1; i++) {
 			for(let j = i+1; j < this.count; j++) {
 				let e1 = this.entities[i];
