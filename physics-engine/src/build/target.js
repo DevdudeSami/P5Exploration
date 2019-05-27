@@ -240,6 +240,27 @@ var EntityCollection = (function () {
     };
     return EntityCollection;
 }());
+var Spring = (function () {
+    function Spring(e1, e2, length, k) {
+        this.e1 = e1;
+        this.e2 = e2;
+        this.length = length;
+        this.k = k;
+    }
+    Spring.prototype.update = function () {
+        var f = p5.Vector.sub(this.e1.position, this.e2.position);
+        var currentLength = f.mag();
+        var x = currentLength - this.length;
+        f.normalize();
+        this.e1.applyForce(p5.Vector.mult(f, -this.k));
+        this.e2.applyForce(p5.Vector.mult(f, this.k));
+    };
+    Spring.prototype.render = function () {
+        stroke(0);
+        line(this.e1.position.x, this.e1.position.y, this.e2.position.x, this.e2.position.y);
+    };
+    return Spring;
+}());
 var Scene = (function () {
     function Scene() {
         this.children = [];
@@ -378,5 +399,33 @@ var PlanetaryMotionScene = (function (_super) {
         this.addChild(this.collection);
     };
     return PlanetaryMotionScene;
+}(Scene));
+var SpringsTestScene = (function (_super) {
+    __extends(SpringsTestScene, _super);
+    function SpringsTestScene() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SpringsTestScene.prototype.setup = function () {
+        _super.prototype.setup.call(this);
+        this.backgroundColor = [0, 80, 190];
+        var collection = new EntityCollection();
+        collection.G = 1;
+        var ground = new CircleEntity(3000000000, 750, 100950, 100000);
+        ground.restitution = 1;
+        ground.fill = [165, 42, 42];
+        var e1 = new CircleEntity(50, 100, 100, 50);
+        var e2 = new CircleEntity(50, 300, 100, 50);
+        var e3 = new CircleEntity(50, 100, 300, 50);
+        var e4 = new CircleEntity(50, 300, 300, 50);
+        collection.addEntity(ground);
+        collection.addEntities([e1, e2, e3, e4]);
+        var s1 = new Spring(e1, e2, 200, 5);
+        var s2 = new Spring(e2, e3, 200, 5);
+        var s3 = new Spring(e3, e4, 200, 5);
+        var s4 = new Spring(e4, e1, 200, 5);
+        this.addChild(collection);
+        this.addChildren([s1, s2, s3, s4]);
+    };
+    return SpringsTestScene;
 }(Scene));
 //# sourceMappingURL=target.js.map
