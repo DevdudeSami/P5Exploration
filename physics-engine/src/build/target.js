@@ -247,6 +247,14 @@ var Spring = (function () {
         this.length = length;
         this.k = k;
     }
+    Object.defineProperty(Spring.prototype, "extension", {
+        get: function () {
+            var currentLength = this.e1.position.dist(this.e2.position);
+            return currentLength - this.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Spring.prototype.update = function () {
         var f = p5.Vector.sub(this.e1.position, this.e2.position);
         var currentLength = f.mag();
@@ -256,7 +264,11 @@ var Spring = (function () {
         this.e2.applyForce(p5.Vector.mult(f, this.k));
     };
     Spring.prototype.render = function () {
-        stroke(0);
+        var x = this.extension;
+        if (x > 0)
+            stroke(this.k * x, 0, 0);
+        else
+            stroke(0, 0, -this.k * x);
         line(this.e1.position.x, this.e1.position.y, this.e2.position.x, this.e2.position.y);
     };
     return Spring;
@@ -413,10 +425,10 @@ var SpringsTestScene = (function (_super) {
         var ground = new CircleEntity(3000000000, 750, 100950, 100000);
         ground.restitution = 1;
         ground.fill = [165, 42, 42];
-        var e1 = new CircleEntity(50, 100, 100, 50);
-        var e2 = new CircleEntity(50, 300, 100, 50);
-        var e3 = new CircleEntity(50, 100, 300, 50);
-        var e4 = new CircleEntity(50, 300, 300, 50);
+        var e1 = new CircleEntity(50, 100, 100, 30);
+        var e2 = new CircleEntity(50, 300, 100, 30);
+        var e3 = new CircleEntity(50, 100, 300, 30);
+        var e4 = new CircleEntity(50, 300, 300, 30);
         collection.addEntity(ground);
         collection.addEntities([e1, e2, e3, e4]);
         var s1 = new Spring(e1, e2, 200, 5);

@@ -15,10 +15,10 @@ class SpringsTestScene extends Scene {
 		ground.restitution = 1;
 		ground.fill = [165,42,42];
 
-		let e1 = new CircleEntity(50, 100, 100, 50);
-		let e2 = new CircleEntity(50, 300, 100, 50);
-		let e3 = new CircleEntity(50, 100, 300, 50);
-		let e4 = new CircleEntity(50, 300, 300, 50);
+		let e1 = new CircleEntity(50, 100, 100, 30);
+		let e2 = new CircleEntity(50, 300, 100, 30);
+		let e3 = new CircleEntity(50, 100, 300, 30);
+		let e4 = new CircleEntity(50, 300, 300, 30);
 
 		collection.addEntity(ground);
 		collection.addEntities([e1,e2,e3,e4]);
