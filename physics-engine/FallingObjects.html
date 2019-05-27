@@ -1,15 +1,15 @@
 <html>
   <head>
-		<title>Physics Engine</title>
+		<title>Falling Objects</title>
 		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
 		<script src="src/build/target.js"></script>
-
+		
 		<script>
 			let scene;
 
 			function setup() {
-				scene = new PlaneteryMotionScene();
+				scene = new FallingObjectsScene();
 				scene.setup();
 			}
 
@@ -18,7 +18,8 @@
 				scene.render();
 			}
 		</script>
-		
+
+
 		<style>
 			html, body {
 				height: 100%;

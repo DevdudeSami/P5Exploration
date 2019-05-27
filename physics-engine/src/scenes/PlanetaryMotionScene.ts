@@ -1,6 +1,6 @@
 /// <reference path="./Scene.ts" />
 
-class PlaneteryMotionScene extends Scene {
+class PlanetaryMotionScene extends Scene {
 	collection: EntityCollection = new EntityCollection();
 
 

@@ -5,6 +5,7 @@ var Entity = (function () {
         this.acceleration = createVector(0, 0);
         this.dragCoefficient = 0;
         this.restitution = 1;
+        this.isStatic = false;
         this.position = createVector(x, y);
     }
     Object.defineProperty(Entity.prototype, "direction", {
@@ -24,14 +25,20 @@ var Entity = (function () {
         configurable: true
     });
     Entity.prototype.applyForce = function (f) {
+        if (this.isStatic)
+            return;
         var da = p5.Vector.div(f, this.mass);
         this.acceleration.add(da);
     };
     Entity.prototype.applyImpulse = function (j) {
+        if (this.isStatic)
+            return;
         var dv = p5.Vector.div(j, this.mass);
         this.velocity.add(dv);
     };
     Entity.prototype.applyDrag = function () {
+        if (this.isStatic)
+            return;
         var drag = this.direction;
         drag.mult(-this.dragCoefficient * this.velocity.magSq());
         this.applyForce(drag);
@@ -279,6 +286,36 @@ var Scene = (function () {
     };
     return Scene;
 }());
+var FallingObjectsScene = (function (_super) {
+    __extends(FallingObjectsScene, _super);
+    function FallingObjectsScene() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.collection = new EntityCollection();
+        return _this;
+    }
+    FallingObjectsScene.prototype.setup = function () {
+        _super.prototype.setup.call(this);
+        this.backgroundColor = [0, 0, 80];
+        this.collection = new EntityCollection();
+        this.collection.G = 3;
+        var ground = new CircleEntity(1000000000, 750, 100950, 100000);
+        ground.restitution = 0.5;
+        ground.fill = [165, 42, 42];
+        var object1 = new CircleEntity(100, 100, 100, 75);
+        var object2 = new CircleEntity(25, 400, 100, 50);
+        var object3 = new CircleEntity(10, 600, 100, 20);
+        var object4 = new CircleEntity(500, 1000, 100, 200);
+        var object5 = new CircleEntity(400, 1600, 100, 100);
+        this.collection.addEntity(ground);
+        this.collection.addEntity(object1);
+        this.collection.addEntity(object2);
+        this.collection.addEntity(object3);
+        this.collection.addEntity(object4);
+        this.collection.addEntity(object5);
+        this.addChild(this.collection);
+    };
+    return FallingObjectsScene;
+}(Scene));
 var ParticleCollectionScene = (function (_super) {
     __extends(ParticleCollectionScene, _super);
     function ParticleCollectionScene() {
@@ -307,14 +344,14 @@ var ParticleCollectionScene = (function (_super) {
     };
     return ParticleCollectionScene;
 }(Scene));
-var PlaneteryMotionScene = (function (_super) {
-    __extends(PlaneteryMotionScene, _super);
-    function PlaneteryMotionScene() {
+var PlanetaryMotionScene = (function (_super) {
+    __extends(PlanetaryMotionScene, _super);
+    function PlanetaryMotionScene() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.collection = new EntityCollection();
         return _this;
     }
-    PlaneteryMotionScene.prototype.setup = function () {
+    PlanetaryMotionScene.prototype.setup = function () {
         _super.prototype.setup.call(this);
         this.backgroundColor = [0, 0, 0];
         this.collection = new EntityCollection();
@@ -340,6 +377,6 @@ var PlaneteryMotionScene = (function (_super) {
         this.collection.addEntities([entity1, entity2, entity3, entity4]);
         this.addChild(this.collection);
     };
-    return PlaneteryMotionScene;
+    return PlanetaryMotionScene;
 }(Scene));
 //# sourceMappingURL=target.js.map
