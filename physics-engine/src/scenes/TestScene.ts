@@ -7,35 +7,23 @@ class TestScene {
 		background(127);
 			
 		this.collection = new EntityCollection();
-		this.collection.G = 0;
+		this.collection.G = 30;
+		
+		let entity1 = new CircleEntity(25, 900, 400, 20);
+		let entity2 = new CircleEntity(25, 800, 400, 20);
+		let entity3 = new CircleEntity(1100, 100, 400, 200);
+		let entity4 = new CircleEntity(100, 700, 400, 50);
 
-		let biggerEntity = new Entity(50, 100, 400);
-		let bigEntity = new Entity(100, 300, 400);
-		let smallEntity = new Entity(100, 600, 400);
-		let smallerEntity = new Entity(100, 1000, 400);
+		entity1.restitution = 0;
+		entity2.restitution = 1;
+		entity3.restitution = 1;
+		entity4.restitution = 1;
 
-		let rendererUpdate = function(e: Entity) {
-			e.renderer.update(e.position, e.radius, 15+255*(e.density/0.1));
-		}
-
-		biggerEntity.restitution = 0;
-		bigEntity.restitution = 0;
-		smallEntity.restitution = 0;
-		smallerEntity.restitution = 0;
-
-		// bigEntity.setDensity(1);
-		// smallerEntity.setDensity(0.05);
-
-		// biggerEntity.setRenderer(new CircleRenderer(), rendererUpdate);
-		// bigEntity.setRenderer(new CircleRenderer(), rendererUpdate);
-		smallEntity.setRenderer(new CircleRenderer(), rendererUpdate);
-		smallerEntity.setRenderer(new CircleRenderer(), rendererUpdate);
-
-		// biggerEntity.applyImpulse(createVector(0, 100));
-		bigEntity.applyImpulse(createVector(0, -100));
-		smallEntity.applyImpulse(createVector(100, 0));
-		smallerEntity.applyImpulse(createVector(-100, 0));
-		this.collection.addEntities([smallEntity, smallerEntity]);
+		entity1.applyImpulse(createVector(0, 300));
+		entity2.applyImpulse(createVector(0, 250));
+		entity3.applyImpulse(createVector(0, 0));
+		entity4.applyImpulse(createVector(0, 300));
+		this.collection.addEntities([entity1, entity2, entity3, entity4]);
 	}
 
 	update() {

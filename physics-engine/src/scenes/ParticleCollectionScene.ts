@@ -14,16 +14,11 @@ class ParticleCollectionScene {
 		let yOffset = 100;
 		let padding = 150;
 	
-		let rendererUpdate = function(e: Entity) {
-			e.renderer.update(e.position, e.radius, 15+255*(e.density/0.1));
-		}
-	
 		for(let i = 0; i < this.nX; i++) {
 			for(let j = 0; j < this.nY; j++) {
-				let e = new Entity(10, xOffset+padding*i, yOffset+padding*j);
-				e.density = 0.05;
-				e.restitution = 0;
-				e.setRenderer(new CircleRenderer(), rendererUpdate);
+				let e = new BlobEntity(10, xOffset+padding*i, yOffset+padding*j, 20);
+				e.detail = 0.05;
+				e.restitution = 1;
 				this.collection.addEntity(e);
 			}
 		}

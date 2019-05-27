@@ -53,7 +53,7 @@ class EntityCollection {
 				let e2 = this.entities[j];
 	
 				let dr = e1.position.dist(e2.position); // Distance between
-				let Dr = e1.radius + e2.radius; // Sum of radii
+				let Dr = e1.collisionMetric + e2.collisionMetric; // Sum of radii
 				
 				if(Dr-dr >= 0) {
 					this.collision(e1,e2,Dr-dr);
