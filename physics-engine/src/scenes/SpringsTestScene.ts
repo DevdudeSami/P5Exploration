@@ -20,16 +20,25 @@ class SpringsTestScene extends Scene {
 		let e3 = new CircleEntity(50, 100, 300, 30);
 		let e4 = new CircleEntity(50, 300, 300, 30);
 
+		let e5 = new CircleEntity(50, 1000, 200, 30);
+
+		let anchor = new Anchor(800,200);
+
 		collection.addEntity(ground);
 		collection.addEntities([e1,e2,e3,e4]);
+		collection.addEntity(e5);
+		collection.addEntity(anchor);
 
 		let s1 = new Spring(e1, e2, 200, 5);
 		let s2 = new Spring(e2, e3, 200, 5);
 		let s3 = new Spring(e3, e4, 200, 5);
 		let s4 = new Spring(e4, e1, 200, 5);
 
+		let sa1 = new Spring(e5,anchor,200,20);
+
 		this.addChild(collection);
 		this.addChildren([s1,s2,s3,s4]);
+		this.addChildren([sa1]);
 	}
 
 }

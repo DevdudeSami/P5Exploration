@@ -68,13 +68,17 @@ class EntityCollection implements Renderable {
 		let totalMass = e1.mass + e2.mass;
 		let restitution = e1.restitution*e2.restitution;
 		
-		let ds1 = contactNormal.copy();
-		ds1.mult(d*e2.mass/totalMass);
-		e1.position.sub(ds1);
+		if(!e1.isStatic) {
+			let ds1 = contactNormal.copy();
+			ds1.mult(d*e2.mass/totalMass);
+			e1.position.sub(ds1);
+		}
 		
-		let ds2 = contactNormal.copy();
-		ds2.mult(-d*e1.mass/totalMass);
-		e2.position.sub(ds2);
+		if(!e2.isStatic) {
+			let ds2 = contactNormal.copy();
+			ds2.mult(-d*e1.mass/totalMass);
+			e2.position.sub(ds2);
+		}
 	
 		let du = p5.Vector.sub(e1.velocity, e2.velocity);
 	
@@ -87,8 +91,8 @@ class EntityCollection implements Renderable {
 		let v2 = p5.Vector.add(totalMomentum, p5.Vector.mult(du, e1.mass*restitution));
 		v2.div(totalMass);
 	
-		e1.velocity = v1;
-		e2.velocity = v2;
+		if(!e1.isStatic) e1.velocity = v1;
+		if(!e2.isStatic) e2.velocity = v2;
 	}
 	
 	camera() {

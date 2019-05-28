@@ -94,14 +94,24 @@ var CircleEntity = (function (_super) {
         _super.prototype.update.call(this);
     };
     CircleEntity.prototype.render = function () {
-        var opacity = 15 + 255 * (this.density / 0.1);
         stroke(0);
         strokeWeight(2);
-        fill(this.fill[0], this.fill[1], this.fill[2], opacity);
+        fill(this.fill[0], this.fill[1], this.fill[2]);
         ellipse(this.position.x, this.position.y, this.radius * 2, this.radius * 2);
     };
     return CircleEntity;
 }(Entity));
+var Anchor = (function (_super) {
+    __extends(Anchor, _super);
+    function Anchor(x, y) {
+        var _this = _super.call(this, 0, x, y, 5) || this;
+        _this.isStatic = true;
+        _this.restitution = 1;
+        _this.fill = [0, 0, 0];
+        return _this;
+    }
+    return Anchor;
+}(CircleEntity));
 var BlobEntity = (function (_super) {
     __extends(BlobEntity, _super);
     function BlobEntity() {
@@ -202,12 +212,16 @@ var EntityCollection = (function () {
         contactNormal.normalize();
         var totalMass = e1.mass + e2.mass;
         var restitution = e1.restitution * e2.restitution;
-        var ds1 = contactNormal.copy();
-        ds1.mult(d * e2.mass / totalMass);
-        e1.position.sub(ds1);
-        var ds2 = contactNormal.copy();
-        ds2.mult(-d * e1.mass / totalMass);
-        e2.position.sub(ds2);
+        if (!e1.isStatic) {
+            var ds1 = contactNormal.copy();
+            ds1.mult(d * e2.mass / totalMass);
+            e1.position.sub(ds1);
+        }
+        if (!e2.isStatic) {
+            var ds2 = contactNormal.copy();
+            ds2.mult(-d * e1.mass / totalMass);
+            e2.position.sub(ds2);
+        }
         var du = p5.Vector.sub(e1.velocity, e2.velocity);
         var p1 = p5.Vector.mult(e1.velocity, e1.mass);
         var p2 = p5.Vector.mult(e2.velocity, e2.mass);
@@ -216,8 +230,10 @@ var EntityCollection = (function () {
         v1.div(totalMass);
         var v2 = p5.Vector.add(totalMomentum, p5.Vector.mult(du, e1.mass * restitution));
         v2.div(totalMass);
-        e1.velocity = v1;
-        e2.velocity = v2;
+        if (!e1.isStatic)
+            e1.velocity = v1;
+        if (!e2.isStatic)
+            e2.velocity = v2;
     };
     EntityCollection.prototype.camera = function () {
         var v = -10;
@@ -266,9 +282,9 @@ var Spring = (function () {
     Spring.prototype.render = function () {
         var x = this.extension;
         if (x > 0)
-            stroke(this.k * x, 0, 0);
+            stroke(0.05 * this.k * x, 0, 0);
         else
-            stroke(0, 0, -this.k * x);
+            stroke(0, 0, -0.05 * this.k * x);
         line(this.e1.position.x, this.e1.position.y, this.e2.position.x, this.e2.position.y);
     };
     return Spring;
@@ -429,14 +445,20 @@ var SpringsTestScene = (function (_super) {
         var e2 = new CircleEntity(50, 300, 100, 30);
         var e3 = new CircleEntity(50, 100, 300, 30);
         var e4 = new CircleEntity(50, 300, 300, 30);
+        var e5 = new CircleEntity(50, 1000, 200, 30);
+        var anchor = new Anchor(800, 200);
         collection.addEntity(ground);
         collection.addEntities([e1, e2, e3, e4]);
+        collection.addEntity(e5);
+        collection.addEntity(anchor);
         var s1 = new Spring(e1, e2, 200, 5);
         var s2 = new Spring(e2, e3, 200, 5);
         var s3 = new Spring(e3, e4, 200, 5);
         var s4 = new Spring(e4, e1, 200, 5);
+        var sa1 = new Spring(e5, anchor, 200, 20);
         this.addChild(collection);
         this.addChildren([s1, s2, s3, s4]);
+        this.addChildren([sa1]);
     };
     return SpringsTestScene;
 }(Scene));

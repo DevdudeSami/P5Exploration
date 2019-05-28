@@ -23,11 +23,11 @@ class CircleEntity extends Entity {
 	}
 
 	render() {
-		let opacity = 15+255*(this.density/0.1)
+		// let opacity = 15+255*(this.density/0.1)
 
 		stroke(0);
 		strokeWeight(2);
-		fill(this.fill[0], this.fill[1], this.fill[2], opacity);
+		fill(this.fill[0], this.fill[1], this.fill[2]);
 		ellipse(this.position.x, this.position.y, this.radius*2, this.radius*2);
 	}
 }

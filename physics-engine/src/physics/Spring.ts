@@ -21,8 +21,8 @@ class Spring implements Renderable {
 	
 	render(): void {
 		let x = this.extension;
-		if(x > 0) stroke(this.k*x,0,0);
-		else stroke(0,0,-this.k*x);
+		if(x > 0) stroke(0.05*this.k*x,0,0);
+		else stroke(0,0,-0.05*this.k*x);
 		line(this.e1.position.x, this.e1.position.y, this.e2.position.x, this.e2.position.y);
 	}
 }

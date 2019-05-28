@@ -1,5 +1,5 @@
 # P5Exploration
-Exploring p5.js
+Exploring [p5.js](https://www.p5js.org).
 
 Currently, this is mainly used to demonstrate physical phenomena resulting from Newton's law of gravitation and Hooke's law for springs. At each frame, the gravitational force between each entity is calculated and applied. Collisions are also checked and accounted for.
 
