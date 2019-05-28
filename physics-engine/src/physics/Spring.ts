@@ -1,8 +1,5 @@
 class Spring implements Renderable {
-
-	constructor(public e1: Entity, public e2: Entity, public length: number, public k: number) {
-
-	}
+	constructor(public e1: Entity, public e2: Entity, public length: number, public k: number) {}
 
 	get extension() {
 		let currentLength = this.e1.position.dist(this.e2.position);

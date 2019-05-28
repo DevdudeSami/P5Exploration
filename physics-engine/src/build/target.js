@@ -256,6 +256,20 @@ var EntityCollection = (function () {
     };
     return EntityCollection;
 }());
+var Rod = (function () {
+    function Rod(e1, e2, length) {
+        this.e1 = e1;
+        this.e2 = e2;
+        this.length = length;
+    }
+    Rod.prototype.update = function () {
+    };
+    Rod.prototype.render = function () {
+        stroke(127);
+        line(this.e1.position.x, this.e1.position.y, this.e2.position.x, this.e2.position.y);
+    };
+    return Rod;
+}());
 var Spring = (function () {
     function Spring(e1, e2, length, k) {
         this.e1 = e1;
@@ -446,19 +460,29 @@ var SpringsTestScene = (function (_super) {
         var e3 = new CircleEntity(50, 100, 300, 30);
         var e4 = new CircleEntity(50, 300, 300, 30);
         var e5 = new CircleEntity(50, 1000, 200, 30);
-        var anchor = new Anchor(800, 200);
+        var e6 = new CircleEntity(50, 1000, 700, 30);
+        var a1 = new Anchor(800, 200);
+        var a2 = new Anchor(300, 200);
         collection.addEntity(ground);
         collection.addEntities([e1, e2, e3, e4]);
         collection.addEntity(e5);
-        collection.addEntity(anchor);
+        collection.addEntity(e6);
+        collection.addEntity(a1);
+        collection.addEntity(a2);
         var s1 = new Spring(e1, e2, 200, 5);
         var s2 = new Spring(e2, e3, 200, 5);
         var s3 = new Spring(e3, e4, 200, 5);
         var s4 = new Spring(e4, e1, 200, 5);
-        var sa1 = new Spring(e5, anchor, 200, 20);
+        var sa2 = new Spring(e5, e6, 200, 20);
+        var sa1 = new Spring(e5, a1, 200, 20);
+        var sa3 = new Spring(e6, a1, 200, 20);
+        var sa4 = new Spring(e6, e1, 200, 20);
+        var sa5 = new Spring(e6, e2, 200, 20);
+        var sa6 = new Spring(e5, a2, 200, 20);
+        var sa7 = new Spring(e3, a2, 200, 20);
         this.addChild(collection);
         this.addChildren([s1, s2, s3, s4]);
-        this.addChildren([sa1]);
+        this.addChildren([sa1, sa2, sa3, sa4, sa5, sa6, sa7]);
     };
     return SpringsTestScene;
 }(Scene));
