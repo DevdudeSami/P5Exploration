@@ -104,7 +104,7 @@ var CircleEntity = (function (_super) {
 var Anchor = (function (_super) {
     __extends(Anchor, _super);
     function Anchor(x, y) {
-        var _this = _super.call(this, 0, x, y, 5) || this;
+        var _this = _super.call(this, 400, x, y, 30) || this;
         _this.isStatic = true;
         _this.restitution = 1;
         _this.fill = [0, 0, 0];
@@ -442,6 +442,49 @@ var PlanetaryMotionScene = (function (_super) {
     };
     return PlanetaryMotionScene;
 }(Scene));
+var SpringMassScene = (function (_super) {
+    __extends(SpringMassScene, _super);
+    function SpringMassScene() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SpringMassScene.prototype.setup = function () {
+        _super.prototype.setup.call(this);
+        this.backgroundColor = [0, 80, 190];
+        var collection = new EntityCollection();
+        collection.G = 0;
+        var phi = 1.61803398875;
+        var springLength = 200;
+        var n = 20;
+        var seperation = 80;
+        var startAnchor = new Anchor(0, 200);
+        var endAnchor = new Anchor(100 + (n - 1) * seperation + 100, 200);
+        collection.addEntity(startAnchor);
+        collection.addEntity(endAnchor);
+        var k = 0.001;
+        var entities = [];
+        for (var i = 0; i < n; i++) {
+            var e = new CircleEntity(400, 100 + i * seperation, 200, 30);
+            e.restitution = 1;
+            entities.push(e);
+            if (i == 0) {
+                this.addChild(new Spring(startAnchor, e, springLength, k));
+            }
+            else {
+                this.addChild(new Spring(e, entities[i - 1], springLength, k));
+            }
+            if (i == n - 1) {
+                this.addChild(new Spring(endAnchor, entities[n - 1], springLength, k));
+            }
+            k *= phi;
+        }
+        collection.addEntities(entities);
+        this.addChild(collection);
+    };
+    return SpringMassScene;
+}(Scene));
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 var SpringsTestScene = (function (_super) {
     __extends(SpringsTestScene, _super);
     function SpringsTestScene() {

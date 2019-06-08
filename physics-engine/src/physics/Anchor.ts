@@ -6,6 +6,6 @@ class Anchor extends CircleEntity {
 	fill = [0,0,0];
 
 	constructor(x: number, y: number) {
-		super(0,x,y,5);
+		super(400,x,y,30);
 	}
 }

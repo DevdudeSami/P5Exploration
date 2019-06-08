@@ -1,0 +1,43 @@
+<html>
+  <head>
+		<title>Spring-Mass System</title>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+		<script src="src/build/target.js"></script>
+		
+		<script>
+			let scene;
+
+			function setup() {
+				scene = new SpringMassScene();
+				scene.setup();
+			}
+
+			function draw() {
+				scene.update();
+				scene.render();
+			}
+		</script>
+
+
+		<style>
+			html, body {
+				height: 100%;
+			}
+
+			body {
+				margin: 0;
+				display: flex;
+
+				/* This centers our sketch horizontally. */
+				justify-content: center;
+
+				/* This centers our sketch vertically. */
+				/* align-items: center; */
+			}
+		</style>
+	</head>
+	
+  <body>
+  </body>
+</html>
